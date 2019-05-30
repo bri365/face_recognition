@@ -32,19 +32,23 @@ def prev_id(current_id):
 # A subprocess use to capture frames.
 def capture(read_frame_list):
     # Get a reference to webcam #0 (the default one)
-    video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture('rtsp://admin2:P@ssw0rd@192.168.1.108:554//cam/realmonitor?channel=1&subtype=0')
+    # video_capture = cv2.VideoCapture(0)
     # video_capture.set(3, 640)  # Width of the frames in the video stream.
     # video_capture.set(4, 480)  # Height of the frames in the video stream.
-    # video_capture.set(5, 30) # Frame rate.
+    # video_capture.set(5, 3) # Frame rate.
     print("Width: %d, Height: %d, FPS: %d" % (video_capture.get(3), video_capture.get(4), video_capture.get(5)))
 
+    process_this = False
     while not Global.is_exit:
         # If it's time to read a frame
         if Global.buff_num != next_id(Global.read_num):
             # Grab a single frame of video
             ret, frame = video_capture.read()
-            read_frame_list[Global.buff_num] = frame
-            Global.buff_num = next_id(Global.buff_num)
+            if process_this:
+                read_frame_list[Global.buff_num] = frame
+                Global.buff_num = next_id(Global.buff_num)
+            process_this = not process_this
         else:
             time.sleep(0.01)
 
