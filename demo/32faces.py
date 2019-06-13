@@ -34,9 +34,9 @@ while True:
             # Reolink camera
             # video_capture = cv2.VideoCapture('rtsp://admin2:P@ssw0rd@192.168.1.108:554//cam/realmonitor?channel=1&subtype=0')
             # Grab and resize a single frame of video to ensure connection works
-            print('1 capture frame')
+            # print('1 capture frame')
             ret, frame = video_capture.read()
-            print('1 resize frame')
+            # print('1 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
         except:
             video_capture = None
@@ -50,11 +50,11 @@ while True:
 
             disconnect_count += 1
             sys.stdout.flush()
-            time.sleep(1)
+            time.sleep(3)
     else:
         try:
             # Grab a single frame of video
-            print('2 capture frame')
+            # print('2 capture frame')
             ret, frame = video_capture.read()
 
             # Flip frame for ceiling mount camera sitting on a table
@@ -133,9 +133,9 @@ while True:
             video_capture = None
 
     # 'q' on the keyboard to quit
-    key = cv2.waitKey(1) & 0xFF
-    print(key)
-    if key == ord('q'):
+    key = cv2.waitKey(1)
+    print(key, ord('q'))
+    if key & 0xFF == ord('q'):
         try:
             video_capture.release()
             cv2.destroyAllWindows()
