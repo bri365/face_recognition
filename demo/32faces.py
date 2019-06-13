@@ -39,6 +39,7 @@ while True:
             # print('1 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
         except KeyboardInterrupt:
+            print('\n')
             exit()
         except:
             try:
@@ -55,6 +56,7 @@ while True:
                 sys.stdout.flush()
                 time.sleep(3)
             except KeyboardInterrupt:
+                print('\n')
                 exit()
     else:
         try:
@@ -129,6 +131,7 @@ while True:
             # print('2 show image')
             cv2.imshow('Video', frame)
         except KeyboardInterrupt:
+            print('\n')
             exit()
         except:
             try:
@@ -145,6 +148,7 @@ while True:
         try:
             video_capture.release()
             cv2.destroyAllWindows()
+            print('\n')
         except:
             pass
         exit()
