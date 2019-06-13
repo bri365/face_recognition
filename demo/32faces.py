@@ -27,11 +27,9 @@ for image in local_images:
 while True:
     if video_capture is None:
         try:
-            print('1 socket test')
             s = socket.create_connection(address=('172.16.50.32', 554), timeout=2)
             s.close()
             # Dahau camera
-            print('1 set capture')
             video_capture = cv2.VideoCapture('rtsp://admin:password@172.16.50.32:554//h264Preview_01_main')
             # Reolink camera
             # video_capture = cv2.VideoCapture('rtsp://admin2:P@ssw0rd@192.168.1.108:554//cam/realmonitor?channel=1&subtype=0')
@@ -67,16 +65,16 @@ while True:
             print('2 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
 
-            # Create 1/4 size frame for faster face recognition processing
-            print('2 small frame')
-            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-
-            # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-            print('2 rgb frame')
-            rgb_small_frame = small_frame[:, :, ::-1]
-
             # Only process a few video frames to save time (one in every 6)
             if process_this_frame == 6:
+                # Create 1/4 size frame for faster face recognition processing
+                print('2 small frame')
+                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+
+                # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+                print('2 rgb frame')
+                rgb_small_frame = small_frame[:, :, ::-1]
+
                 # Find all the faces and face encodings in the current frame of video
                 print('2 faces locations')
                 face_locations = face_recognition.face_locations(rgb_small_frame)
@@ -127,7 +125,7 @@ while True:
             cv2.imshow('Video', frame)
         except:
             try:
-                print('2 release video')
+                print('release video')
                 video_capture.release()
                 cv2.destroyAllWindows()
             except:
@@ -135,13 +133,10 @@ while True:
             video_capture = None
 
     # 'q' on the keyboard to quit
-    if cv2.waitKey(0) & 0xFF == ord('q'):
-        break
-
-# Release handle to camera and remove image window
-try:
-    print('3 release video')
-    video_capture.release()
-    cv2.destroyAllWindows()
-except:
-    pass
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        try:
+            video_capture.release()
+            cv2.destroyAllWindows()
+        except:
+            pass
+        exit()
