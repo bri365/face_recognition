@@ -41,18 +41,21 @@ while True:
         except KeyboardInterrupt:
             exit()
         except:
-            video_capture = None
-            if disconnect_count == 1:
-                sys.stdout.write("Camera not available ('^C' to quit) ")
-            else:
-                sys.stdout.write('.')
-                if disconnect_count == 30:
-                    sys.stdout.write('\n')
-                    disconnect_count = 0
+            try:
+                video_capture = None
+                if disconnect_count == 1:
+                    sys.stdout.write("Camera not available ('^C' to quit) ")
+                else:
+                    sys.stdout.write('.')
+                    if disconnect_count == 30:
+                        sys.stdout.write('\n')
+                        disconnect_count = 0
 
-            disconnect_count += 1
-            sys.stdout.flush()
-            time.sleep(3)
+                disconnect_count += 1
+                sys.stdout.flush()
+                time.sleep(3)
+            except KeyboardInterrupt:
+                exit()
     else:
         try:
             # Grab a single frame of video
