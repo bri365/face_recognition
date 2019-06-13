@@ -38,6 +38,7 @@ while True:
             ret, frame = video_capture.read()
             # print('1 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+            print('\nCamera detected')
         except KeyboardInterrupt:
             print('\n')
             exit()
