@@ -38,6 +38,8 @@ while True:
             ret, frame = video_capture.read()
             # print('1 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+        except KeyboardInterrupt:
+            exit()
         except:
             video_capture = None
             if disconnect_count == 1:
@@ -123,6 +125,8 @@ while True:
             # Display the resulting image
             # print('2 show image')
             cv2.imshow('Video', frame)
+        except KeyboardInterrupt:
+            exit()
         except:
             try:
                 disconnect_count = 1
@@ -132,10 +136,9 @@ while True:
                 pass
             video_capture = None
 
-    # 'q' on the keyboard to quit
-    key = cv2.waitKey(1)
-    print(key, ord('q'))
-    if key & 0xFF == ord('q'):
+    # Suppose to detect 'q' on the keyboard, but it doesn't seem to work
+    # However it does appear to be needed for the video to be displayed
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         try:
             video_capture.release()
             cv2.destroyAllWindows()
