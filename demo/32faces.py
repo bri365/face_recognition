@@ -41,7 +41,7 @@ while True:
         except:
             video_capture = None
             if disconnect_count == 1:
-                sys.stdout.write("Camera not available ('q' to quit) ")
+                sys.stdout.write("Camera not available ('^C' to quit) ")
             else:
                 sys.stdout.write('.')
                 if disconnect_count == 30:
@@ -58,25 +58,25 @@ while True:
             ret, frame = video_capture.read()
 
             # Flip frame for ceiling mount camera sitting on a table
-            print('2 flip frame')
+            # print('2 flip frame')
             cv2.flip(frame, -1, frame)
 
             # Resize frame to fit on screen
-            print('2 resize frame')
+            # print('2 resize frame')
             frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
 
             # Only process a few video frames to save time (one in every 6)
             if process_this_frame == 6:
                 # Create 1/4 size frame for faster face recognition processing
-                print('2 small frame')
+                # print('2 small frame')
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
                 # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-                print('2 rgb frame')
+                # print('2 rgb frame')
                 rgb_small_frame = small_frame[:, :, ::-1]
 
                 # Find all the faces and face encodings in the current frame of video
-                print('2 faces locations')
+                # print('2 faces locations')
                 face_locations = face_recognition.face_locations(rgb_small_frame)
                 face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
@@ -121,11 +121,11 @@ while True:
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
             # Display the resulting image
-            print('2 show image')
+            # print('2 show image')
             cv2.imshow('Video', frame)
         except:
             try:
-                print('release video')
+                disconnect_count = 1
                 video_capture.release()
                 cv2.destroyAllWindows()
             except:
@@ -133,7 +133,9 @@ while True:
             video_capture = None
 
     # 'q' on the keyboard to quit
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    key = cv2.waitKey(1) & 0xFF
+    print(key)
+    if key == ord('q'):
         try:
             video_capture.release()
             cv2.destroyAllWindows()
